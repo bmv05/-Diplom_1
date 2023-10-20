@@ -11,8 +11,11 @@ import praktikum.Burger;
 import praktikum.Ingredient;
 import praktikum.IngredientType;
 
+import java.util.List;
+
 @RunWith(MockitoJUnitRunner.class)
 public class BurgerWithMockTest {
+    Burger burger = new Burger();
     @Mock
     Bun bun;
     @Mock
@@ -41,8 +44,34 @@ public class BurgerWithMockTest {
                 "\nPrice: 2288,000000" + "\n";
         String actualReceipt = burger.getReceipt();
         Assert.assertEquals("В чеке указана неверная информация", newGetReceipt.replace("\r\n", "\n"), actualReceipt.replace("\r\n", "\n"));
-
     }
 
+    @Test
+    public void addIngredientCheck() {
+        burger.addIngredient(ingredientSauce);
+        List<Ingredient> ingredients = List.of(ingredientSauce);
+        Assert.assertEquals(ingredients, burger.ingredients);
+    }
 
+    @Test
+    public void removeIngredientCheck() {
+        burger.addIngredient(ingredientSauce);
+        Assert.assertTrue(burger.ingredients.contains(ingredientSauce));
+        int index = burger.ingredients.indexOf(ingredientSauce);
+        burger.removeIngredient(index);
+        Assert.assertFalse(burger.ingredients.contains(ingredientSauce));
+    }
+
+    @Test
+    public void moveIngredientCheck() {
+        burger.addIngredient(ingredientSauce);
+        burger.addIngredient(ingredientFilling);
+        int indexSauce = burger.ingredients.indexOf(ingredientSauce);
+        int indexFilling = burger.ingredients.indexOf(ingredientFilling);
+        List<Ingredient> ingredients = List.of(ingredientSauce, ingredientFilling);
+        Assert.assertEquals(ingredients, burger.ingredients);
+        burger.moveIngredient(indexSauce, indexFilling);
+        List<Ingredient> movedIngredients = List.of(ingredientFilling, ingredientSauce);
+        Assert.assertEquals(movedIngredients, burger.ingredients);
+    }
 }
