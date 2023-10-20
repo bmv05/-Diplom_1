@@ -73,7 +73,7 @@ public class BurgerParamTest {
                                 new Ingredient(IngredientType.FILLING, "Биокотлета из марсианской Магнолии", 300.5f),
                                 new Ingredient(IngredientType.FILLING, "Биокотлета из марсианской Магнолии", 300.5f)
                         },
-                        4680,
+                        4680.5f,
                         "(==== Bulka ====)\n" +
                                 "= sauce Test1 =\n" +
                                 "= sauce sauce =\n" +
