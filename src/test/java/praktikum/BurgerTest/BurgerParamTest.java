@@ -1,9 +1,13 @@
-package praktikum;
+package praktikum.BurgerTest;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import praktikum.Bun;
+import praktikum.Burger;
+import praktikum.Ingredient;
+import praktikum.IngredientType;
 
 @RunWith(Parameterized.class)
 public class BurgerParamTest {
@@ -81,7 +85,6 @@ public class BurgerParamTest {
                                 "(==== Bulka ====)\n" +
                                 "\nPrice: 4680,500000\n"
                 },
-
         };
     }
 
