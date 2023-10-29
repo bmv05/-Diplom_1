@@ -16,7 +16,3 @@
 * maven 4.0.0;
 * mockito 3.12.4;
 * jacoco 0.8.7;
-* rest-assured 5.3.0;
-* allure-junit4 2.23.0;
-* 
-Чтобы выполнить автотесты и сгенерировать отчет, необходимо запустить в консоли команду "mvn clean test" и "allure serve target/surefire-reports/"
