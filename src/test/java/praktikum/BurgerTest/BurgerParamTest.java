@@ -9,20 +9,22 @@ import praktikum.Burger;
 import praktikum.Ingredient;
 import praktikum.IngredientType;
 
+import java.util.Arrays;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+
 @RunWith(Parameterized.class)
 public class BurgerParamTest {
     private final Bun bun;
     private final Ingredient[] ingredients;
     private final float burgerSum;
     private final Burger burger = new Burger();
-    private final String receipt;
 
 
-    public BurgerParamTest(Bun bun, Ingredient[] ingredients, float burgerSum, String receipt) {
+    public BurgerParamTest(Bun bun, Ingredient[] ingredients, float burgerSum) {
         this.bun = bun;
         this.ingredients = ingredients;
         this.burgerSum = burgerSum;
-        this.receipt = receipt;
     }
 
     @Parameterized.Parameters(name = "Тестовые данные: {index}")
@@ -36,14 +38,7 @@ public class BurgerParamTest {
                                 new Ingredient(IngredientType.FILLING, "Мясо бессмертных моллюсков Protostomia", 1337),
                                 new Ingredient(IngredientType.FILLING, "Говяжий метеорит (отбивная)", 3000)
                         },
-                        6483,
-                        "(==== Флюоресцентная булка R2-D3 ====)\n" +
-                                "= sauce Соус Spicy-X =\n" +
-                                "= sauce Соус фирменный Space Sauce =\n" +
-                                "= filling Мясо бессмертных моллюсков Protostomia =\n" +
-                                "= filling Говяжий метеорит (отбивная) =\n" +
-                                "(==== Флюоресцентная булка R2-D3 ====)\n" +
-                                "\nPrice: 6483,000000\n"
+                        6483
                 },
                 {
                         new Bun("Краторная булка N-200i", 1255),
@@ -53,14 +48,7 @@ public class BurgerParamTest {
                                 new Ingredient(IngredientType.FILLING, "Филе Люминесцентного тетраодонтимформа", 988),
                                 new Ingredient(IngredientType.FILLING, "Биокотлета из марсианской Магнолии", 424)
                         },
-                        4025,
-                        "(==== Краторная булка N-200i ====)\n" +
-                                "= sauce Соус традиционный галактический =\n" +
-                                "= sauce Соус с шипами Антарианского плоскоходца =\n" +
-                                "= filling Филе Люминесцентного тетраодонтимформа =\n" +
-                                "= filling Биокотлета из марсианской Магнолии =\n" +
-                                "(==== Краторная булка N-200i ====)\n" +
-                                "\nPrice: 4025,000000\n"
+                        4025
                 },
                 {
                         new Bun("Bulka", 900),
@@ -73,17 +61,7 @@ public class BurgerParamTest {
                                 new Ingredient(IngredientType.FILLING, "Биокотлета из марсианской Магнолии", 300.5f),
                                 new Ingredient(IngredientType.FILLING, "Биокотлета из марсианской Магнолии", 300.5f)
                         },
-                        4680.5f,
-                        "(==== Bulka ====)\n" +
-                                "= sauce Test1 =\n" +
-                                "= sauce sauce =\n" +
-                                "= sauce Соус с шипами Антарианского плоскоходца =\n" +
-                                "= filling Филе Люминесцентного тетраодонтимформа =\n" +
-                                "= filling Биокотлета из марсианской Магнолии =\n" +
-                                "= filling Биокотлета из марсианской Магнолии =\n" +
-                                "= filling Биокотлета из марсианской Магнолии =\n" +
-                                "(==== Bulka ====)\n" +
-                                "\nPrice: 4680,500000\n"
+                        4680.5f
                 },
         };
     }
@@ -110,6 +88,19 @@ public class BurgerParamTest {
         for (Ingredient ingredient : ingredients) {
             burger.addIngredient(ingredient);
         }
-        Assert.assertEquals(receipt, burger.getReceipt());
+
+        StringBuilder receipt = new StringBuilder(String.format("(==== %s ====)%n", bun.getName()));
+        for (Ingredient ingredient : ingredients) {
+            receipt.append(String.format("= %s %s =%n", ingredient.getType().toString().toLowerCase(),
+                    ingredient.getName()));
+        }
+        receipt.append(String.format("(==== %s ====)%n", bun.getName()));
+        receipt.append(String.format("%nPrice: %f%n", burgerSum));
+
+        Assert.assertThat(
+                "Возвращается некорректная строка с рецептом",
+                burger.getReceipt(),
+                equalTo(receipt.toString())
+        );
     }
 }
